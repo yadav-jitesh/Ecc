@@ -1,0 +1,77 @@
+import os
+
+query= input("For Encrypt press 0. For Decrypt press 1: ")
+
+a= input("Enter the value of a : ")
+b= input("Enter the value of b : ")
+p= input("Enter the value of p : ")
+gx= input("Enter the abscissa of G : ")
+gy= input("Enter the ordinate of G : ")
+
+def invmodp(x, y):
+    for d in xrange(1, y):
+        Vni = (d * x) % y
+        if Vni == 1:
+            break
+    else:
+        raise ValueError('%d has no inverse mod %d' % (x, y))
+    return d
+
+def slp1(x1,y1,x2,y2,p):
+	num= (y2-y1)% p
+	effx = (x2-x1)
+	den= invmodp(effx,p)
+	delta = (num*den) % p
+	return delta
+
+def slp2 (x1,y1,a,p):
+	num= ((3*x1*x1)+a)% p
+	effx= (2*y1)
+	den= invmodp(effx,p)
+	delta = (num*den)% p
+	return delta
+
+def FinalP(s,p,x1,x2,y1):
+	xs= ((s*s)-x1-x2)% p
+	ys= (s*(x1-xs)-y1)% p
+	return xs,ys
+
+
+if query== 0:
+
+        pbx = input("Enter the abscissa public key of B :")
+        pby = input("Enter the ordinate public key of B :")
+        pmx = input("Enter the abscissa of plain text :")
+        pmy = input("Enter the ordinate of plain text :")
+        print 'a =', a
+        print 'b =', b
+        print 'p =', p
+        print 'gx =', gx
+        print 'gy =', gy
+        print 'k =', 2
+
+        
+        
+        gsl = slp2 (gx,gy,a,p)
+        kgx,kgy = FinalP(gsl,p,gx,gx,gy)
+        print kgx , kgy
+        
+        
+        pbsl = slp2 (pbx,pby,a,p)
+        kpbx,kpby = summ(pbsl,p,pbx,pbx,pby)
+        print kpbx , kpby
+        
+        
+        pmsl = slp1 (pmx,pmy,kpbx,kpby,p)
+        cx,cy = FinalP(pmsl,p,pmx,kpbx,pmy)
+        print cx , cy
+        
+        
+        print 'cipher text:','[','(',kgx,',',kgy,')','(',cx,',',cy,')',']'
+
+                
+        
+                
+                
+        
+
