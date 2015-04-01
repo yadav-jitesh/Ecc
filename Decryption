@@ -1,0 +1,24 @@
+import os
+        
+	cx = input("Enter the abscissa of the cipher text :")
+	cy = input("Enter the ordinate of the cipher text :")
+	kgx = input("Enter the abscissa of the generator :")
+	kgy = input("Enter the ordinate of the geneator :")
+	nb = input("Enter the private key :")
+        
+	if nb%2!=0:
+		slope = slp2(kgx,kgy,a,p)
+		kgx , kgy = FinalP (slope,p,kgx,kgx,kgy)
+			
+	while (nb >= 2):
+		slope = slp2(kgx,kgy,a,p)
+		kgx , kgy = FinalP (slope,p,kgx,kgx,kgy)
+		nb = nb-2
+
+	print kgx,kgy
+	kgy = 0-kgy 
+		
+	slp = slp1(cx , cy , kgx, kgy , p)
+	pmx , pmy = summ(slp,p,cx,kgx,cy)
+		
+	print 'The plain text is ','(',pmx,',',pmy,')'
